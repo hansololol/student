@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.student.student.dao.StudentDAO">
+
+	<resultMap id="memResult" type="studentVO">
+		<result property="id" column="id"/>
+		<result property="pwd" column="pwd"/>
+		<result property="name" column="name"/>
+		<result property="email" column="email"/>
+		<result property="birth" column="birth"/>
+		<result property="imageFileName" column="imageFileName"/>
+	</resultMap>
+	<resultMap id="subResult" type="subjectVO">
+		<result property="korean" column="korean"/>
+		<result property="math" column="math"/>
+		<result property="english" column="english"/>
+		<result property="history" column="history"/>
+		<result property="Sum" column="Sum"/>
+	</resultMap>
+
+	<select id="selectAllMemberList" resultMap="memResult">
+		<![CDATA[
+		select * from my_student a inner join subject b on a.id=b.id order by sum desc;
+		]]>
+	</select>
+	<select id="selectSubject" resultType="subjectVO" parameterType="String">
+		<![CDATA[
+		select * from subject where id=#{id}
+		]]>
+	</select>
+	
+	
+	<select id="selectAvg" resultType="int" parameterType="subjectVO">
+		<![CDATA[
+		select avg(sum)/4 from subject where id=#{id};
+		]]>
+	</select>
+	<select id="selectSum" resultType="int" parameterType="subjectVO">
+		<![CDATA[
+		select (#{korean} + #{math} + #{english} + #{history}) from subject where id=#{id};
+		]]>
+	</select>
+	<update id="updateSumList" parameterType="java.util.Map">
+		<![CDATA[
+		update subject set sum=sum(#{korean} + #{math} + #{english} + #{history}) where id=#{id};
+		]]>
+	</update>
+	
+	
+		<select id="selectRank" resultType="int" parameterType="subjectVO">
+		<![CDATA[
+				select ran from (select  id, rank() over(order by sum desc)ran from subject)as a where id=#{id}
+		]]>
+	</select>
+	
+	
+	<select id="loginById" resultType="studentVO" parameterType="studentVO">
+	<![CDATA[
+			select * from my_student where id=#{id} and pwd=#{pwd}
+		]]>
+	</select>
+
+	<select id="selectMemberById" resultType="java.util.Map">
+		<![CDATA[
+			select id from subject
+		]]>
+	</select>
+	<select id="selectMemberById1" resultType="StudentVO">
+		<![CDATA[
+			select * from my_student where id=#{id}
+		]]>
+	</select>
+
+	<insert id="insertMember" parameterType="java.util.Map">
+		<![CDATA[
+			insert into my_student values(#{id}, #{pwd}, #{name},  #{birth}, #{email}, #{imageFileName})
+		]]>
+	</insert>
+	<insert id="insertSubject" parameterType="subjectVO">
+		<![CDATA[
+			insert into subject(korean, math,english, history, id) values(#{korean}, #{math}, #{english}, #{history}, #{id})
+		]]>
+		<selectKey keyProperty="Sum" order="AFTER" resultType="int">
+			select function_hierarchical(#{id})
+		</selectKey>
+	</insert>
+	
+	<update id="updateMember" parameterType="studentVO">
+		<![CDATA[
+			update my_student set pwd=#{pwd},name=#{name},email=#{email},imageFileName=#{imageFileName} where id=#{id}
+		]]>
+	</update>
+	
+	<delete id="deleteMember" parameterType="String">
+	<![CDATA[
+			delete from my_student where id=#{id}
+	]]>
+	</delete>
+	
+
+	
+	<select id="selectLike" resultMap="memResult" parameterType="String">
+	<![CDATA[
+			select * from my_student
+			 where name like '%' #{name}
+	]]>
+	</select>
+</mapper>
