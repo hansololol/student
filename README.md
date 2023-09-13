@@ -9,13 +9,13 @@
 1. 프레임워크 : spiringboot4
 2. 사용언어 : JAVA, JQUERY, JSP, JAVASCRIPT, SQL, HTML, CSS
 
-## 프로젝트 메인 화면(로그인 이전)
-
-![image](https://github.com/hansololol/Babee/assets/142460146/23921ea5-845c-44c0-b08b-ccb1676a60bd)
-
-
-## 프로젝트 메인 화면(로그인 이후)
+## 프로젝트 화면(학생 로그인 시)
 학생 이외 로그인할 경우  학생 목록 창으로 이동하며, 학생이 로그인할 경우 학생 정보 상세창으로 이동할 수 있도록 구현하였습니다. 
+부트스트랩을 사용하여 깔끔하게 CSS를 구성할 수 있도록 하였습니다.
 
-![image](https://github.com/hansololol/Babee/assets/142460146/226f0951-1429-4000-b172-cd3cb87befca)
+![image](https://github.com/hansololol/student/assets/142460146/f63de9fe-6c89-4f28-9866-77ae08484c01)
+
+## 프로젝트 화면(관리자 로그인 시)
+
+![image](https://github.com/hansololol/student/assets/142460146/3bbedab4-6273-45cd-9d8d-4049ac58a54d)
 
